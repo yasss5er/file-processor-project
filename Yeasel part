@@ -1,0 +1,33 @@
+import os
+from src.text_decorator import color_text
+
+class FileProcessor:
+    def __init__(self, filename): # Initialize the file processor with a filename
+        self._filename = filename
+
+    @property
+    def filename(self): # Getter for filename
+        return self._filename
+
+    @filename.setter
+    def filename(self, new_name): # Setter for filename
+        self._filename = new_name
+
+    def read_file(self): # Generator function to read the file line by line
+        with open(self.filename, 'r') as file:
+            for line in file:
+                yield line.strip()
+
+    @staticmethod
+    def is_text_file(filename): # Check if a file is a .txt file
+        return filename.endswith('.txt')
+
+    @classmethod
+    def create_from_file(cls, filename): # Creates an instance from a given filename
+        return cls(filename)
+
+    def __str__(self): # String representation of the object
+        return f"FileProcessor({self.filename})"
+
+    def __add__(self, other): # Concatenates two file processors into one
+        return FileProcessor(self.filename + '_' + other.filename)
